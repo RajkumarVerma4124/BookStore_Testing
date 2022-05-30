@@ -1,0 +1,129 @@
+<div class="quickview_container">
+    <div class="book_container">
+        <div class="quickview_header" fxLayout="row">
+            <p style="font-weight: 500;"><span style="color: #9D9D9D;">Home/ </span>Book ({{booksData?.bookId}})</p>
+        </div>
+        <!-- Book Image -->
+        <div class="book_details">
+            <div class="book_image_container">
+                <div class="sample_img_container" fxLayout="column">
+                    <img class="sample_book_img" [src]="booksData?.bookImage" alt="">
+                </div>
+                <div fxLayout="column">
+                    <div class="main_book_img" fxLayout="column">
+                        <img [src]="booksData?.bookImage" alt="">
+                        <span class="outOfStock" *ngIf="booksData?.bookQuantity==0">OUT OF STOCK</span>
+                    </div>
+                    <div class="booksButtons" fxLayout="row">
+                        <div *ngIf="booksData?.bookQuantity!=0">
+                            <button mat-raised-button class="addtobag" (click)="addToCart(booksData)">ADD TO BAG</button>
+                        </div>
+                        <div *ngIf="booksData?.bookQuantity==0">
+                            <button mat-raised-button class="addtobag">Notify Me</button>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <button mat-flat-button class="wishlist" (click)="addWishlist(booksData.bookId)">
+                                <mat-icon class="wishlistIcon">favorite</mat-icon>WISHLIST
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Book Detailed Info -->
+            <div class="book_info" fxLayout="column">
+                <div class="book_data" fxLayout="column">
+                    <h2 style="font-size: 20px; color: #0A0102; margin-bottom: 2px;">
+                        {{booksData?.bookName}}
+                    </h2>
+                    <h3 style="font-size: 14px; color: #878787; margin-bottom: 5px;">
+                        by {{booksData?.authorName}}
+                    </h3>
+                    <div class="book_rating">
+                        <p style="margin-left: 5px; margin-top: 1px; font-size: 13px;">{{booksData?.totalRating}}</p>
+                        <img src="../../../assets/images/star.svg " class="star">
+                        <p style="color: #878787; margin-left: 20px; font-size: 13px;">({{booksData?.ratingCount}})</p>
+                    </div>
+                    <div class="book_cost">
+                        <p class="book_discount"><b>Rs. {{booksData?.discountPrice}}</b></p>
+                        <p class="book_price"><s>Rs. {{booksData?.actualPrice}}</s></p>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div fxLayout="column">
+                    <ul>
+                        <li style="color: #878787; font-weight:500; margin-left: -30px;">Book Detail</li>
+                    </ul>
+                </div>
+                <div class="book_detail_info" fxLayout="column">
+                    <p>{{booksData?.bookDetails}}</p>
+                </div>
+                <mat-divider></mat-divider>
+                <!-- Customer Feedback -->
+                <div fxLayout="column">
+                    <div class="customerfeedback">
+                        <span>Customer Feedback</span>
+                    </div>
+                    <!-- Feedback Review Container -->
+                    <div class="review_box">
+                        <p>Overall Rating</p>
+                        <!-- Star Container -->
+                        <div class="starContainer">
+                            <div class="star_icon">
+                                <input type="radio" name="rate" id="rate-5" [(ngModel)]="ratingValue" value="5">
+                                <label for="rate-5" class="fa fa-star-o" *ngIf="ratingValue<5"></label>
+                                <label for="rate-5" class="fa fa-star" *ngIf="ratingValue>=5"></label>
+                                <input type="radio" name="rate" id="rate-4" [(ngModel)]="ratingValue" value="4">
+                                <label for="rate-4" class="fa fa-star-o" *ngIf="ratingValue<4"></label>
+                                <label for="rate-4" class="fa fa-star" *ngIf="ratingValue>=4"></label>
+                                <input type="radio" name="rate" id="rate-3" [(ngModel)]="ratingValue" value="3">
+                                <label for="rate-3" class="fa fa-star-o" *ngIf="ratingValue<3"></label>
+                                <label for="rate-3" class="fa fa-star" *ngIf="ratingValue>=3"></label>
+                                <input type="radio" name="rate" id="rate-2" [(ngModel)]="ratingValue" value="2">
+                                <label for="rate-2" class="fa fa-star-o" *ngIf="ratingValue<2"></label>
+                                <label for="rate-2" class="fa fa-star" *ngIf="ratingValue>=2"></label>
+                                <input type="radio" name="rate" id="rate-1" [(ngModel)]="ratingValue" value="1">
+                                <label for="rate-1" class="fa fa-star-o" *ngIf="ratingValue<1"></label>
+                                <label for="rate-1" class="fa fa-star" *ngIf="ratingValue>=1"></label>
+                            </div>
+                        </div>
+                        <!-- Feedback Comment -->
+                        <div>
+                            <textarea type="text" cols="30" class="commentInput" placeholder="write your review" [(ngModel)]="comment"></textarea>
+                            <!-- <textarea cols="30" class="commentInput" type="text" placeholder="write your review" [(ngModel)]="comment"></textarea> -->
+                        </div>
+                        <div class="submitbtn">
+                            <button type="submit" (click)="addFeedback(booksData)">Submit</button>
+                        </div>
+                    </div>
+                    <!-- Feedback Details -->
+                    <div class="feedback" *ngFor="let feedback of feedbackList">
+                        <div>
+                            <div class="feedback_name">
+                                <button mat-mini-fab class="shortnameicon">{{getShortName(feedback.fullName)}}</button>
+                                <span style="color: black; font-size: 15px; margin-left: 10px">{{feedback.fullName}}</span>
+                            </div>
+                            <div class="feedback_comment feedbackrating">
+                                <span class="feedbackrating">Rating : </span>
+                                <div for="rate-1" class="fa fa-star-o" *ngIf="feedback.rating<1"></div>
+                                <div style="color: #FFCE00" for="rate-1" class="fa fa-star" *ngIf="feedback.rating>=1"></div>
+                                <div for="rate-2" class="fa fa-star-o" *ngIf="feedback.rating<2"></div>
+                                <div style="color: #FFCE00" for="rate-2" class="fa fa-star" *ngIf="feedback.rating>=2"></div>
+                                <div for="rate-3" class="fa fa-star-o" *ngIf="feedback.rating<3"></div>
+                                <div style="color: #FFCE00" for="rate-3" class="fa fa-star" *ngIf="feedback.rating>=3"></div>
+                                <div for="rate-4" class="fa fa-star-o" *ngIf="feedback.rating<4"></div>
+                                <div style="color: #FFCE00" for="rate-4" class="fa fa-star" *ngIf="feedback.rating>=4"></div>
+                                <div for="rate-5" class="fa fa-star-o" *ngIf="feedback.rating<5"></div>
+                                <div style="color: #FFCE00" for="rate-5" class="fa fa-star" *ngIf="feedback.rating>=5"></div>
+                            </div>
+                            <div class="feedback_comment">
+                                <span style="color: #878787; font-size: 13px;">{{feedback.comment}}</span>
+                            </div>
+                        </div>
+                        <!-- <mat-divider style="margin-top: 10px; height: 13px;"></mat-divider> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

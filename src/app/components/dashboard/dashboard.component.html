@@ -1,0 +1,63 @@
+<div class="dashboard_container">
+    <mat-toolbar class="example-toolbar">
+        <div class="dashboard_name">
+            <button mat-icon-button class="book-icon" aria-label="Example icon-button with menu icon">
+                <img src="../../../assets/images/booklogo.png" alt="">
+             </button>
+            <span class="dashboard_text" style="cursor:pointer" (click)="goToHome()" matTooltip="Home">Raj Bookstore</span>
+        </div>
+        <div class="header_middle">
+            <div class="div_wrapper" id="searchBox" [ngClass]="!searchBarActive == true ? 'header__middleLeft' : 'header__middleLeft active'" (click)="setSearchActive()">
+                <button mat-icon-button matTooltip="Search" class="inputSearchIcon">
+                    <img src="../../../assets/images/search_black_24dp.svg" />
+                </button>
+                <input type="text" id="iconcross" autocomplete="off" matInput placeholder="Search" (keyup)="recieveSearchNote($event)" [(ngModel)]="searchTerm" />
+                <button mat-icon-button [ngClass]="searchActive == true ? 'iconcross iconactive' : 'iconcross'" (click)="clickCross()">
+                    <img src="../../../assets/images/cross.svg" />
+                </button>
+            </div>
+        </div>
+        <div class="search_right">
+            <div class="img_person" style="cursor: pointer">
+                <mat-icon [matMenuTriggerFor]="logoutmenu">person_outline</mat-icon>
+                <span class="person_name" *ngIf="fullName !== 'null'">{{fullName}}</span>
+                <span class="person_name" style="margin-top:1px;" *ngIf="fullName == null">Profile</span>
+            </div>
+            <mat-menu #logoutmenu="matMenu" class="usermenu">
+                <p *ngIf="fullName == null" style="text-align: left; color: #0A0102; margin-left: 20px;">Welcome</p>
+                <p *ngIf="fullName == null" style="text-align: left; color: #878787; margin-left: 20px; font-size:12px; margin-top:-3px; display: flex; flex-wrap: wrap;">To access account and manage orders</p>
+                <div *ngIf="fullName != null" fxLayout="row" fxLayoutAlign="start center" style="margin-left: 21px; cursor: pointer;" (click)="goToProfile()">
+                    <!-- <img style="height:15px; width:15px;" src="../../../assets/images/orders.svg" alt=""> -->
+                    <mat-icon style="color: #878787;height:15px; width:15px; margin-top:-15px; margin-right:5px">person_outline</mat-icon>
+                    <p style="margin-left: 5px; color: #7e7e7e; margin-top: 5px">Profile</p>
+                </div>
+                <div *ngIf="fullName == null">
+                    <button class="btnforprofile" matTooltip="Login/Signup" mat-raised-button (click)="login()">Login/signup</button>
+                </div>
+                <mat-divider *ngIf="fullName == null"></mat-divider>
+                <div fxLayout="row" fxLayoutAlign="start center" style="margin-left: 25px;">
+                    <img style="height:15px; width:15px;" src="../../../assets/images/orders.svg" alt="">
+                    <p style="margin-left: 5px; color: #7e7e7e; margin-top: 10px; cursor: pointer" (click)="goToOrders()">Orders</p>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="start center" style="margin-left: 25px;">
+                    <img style="height:15px; width:15px;" src="../../../assets/images/favorite.svg" alt="">
+                    <p style="margin-left: 5px; color: #7e7e7e;margin-top: 10px;cursor: pointer" (click)="goToWishlist()">Wishlist</p>
+                </div>
+                <div *ngIf="fullName != null">
+                    <button class="btnforprofile" matTooltip="Logout" mat-raised-button (click)="logout()">logout</button>
+                </div>
+            </mat-menu>
+            <div class="img_cart_container" (click)="goToCart()">
+                <img class="img_cart" src="../../../assets/images/cart.svg">
+                <span class="person_name">Cart</span>
+                <span class="cart_quantity">{{cartItemsCount}}</span>
+            </div>
+        </div>
+    </mat-toolbar>
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+    <footer class="footer">
+        <span class="footer_text">Copyright © 2020, Bookstore Private Limited. All Rights Reserved</span>
+    </footer>
+</div>
