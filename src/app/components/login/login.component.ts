@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   hide = true;
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  tokenExist: any = ""
 
   constructor(private formbuilder: FormBuilder, private router: Router, private userService: UserService, 
     private adminService: AdminService, private snackBar: MatSnackBar) { 
@@ -29,6 +30,10 @@ export class LoginComponent implements OnInit {
       emailId: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9]{3,}([._+-][0-9a-zA-Z]{2,})*@[0-9a-zA-Z]+[.]?([a-zA-Z]{2})+[.]([a-zA-Z]{3})+$')]],
       password: ['', [Validators.required, Validators.pattern('^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).{8,}$')]],
     });
+    this.tokenExist = localStorage.getItem("token");
+    if (this.tokenExist?.length > 0) {
+      this.router.navigateByUrl('/dashboard/allbooks')
+    }
   }
 
   register() {
